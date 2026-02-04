@@ -11,7 +11,7 @@
     }
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -19,166 +19,172 @@
       overflow: hidden;
     }
     .card {
-      background: white;
-      padding: 35px 30px;
-      border-radius: 20px;
+      background: rgba(255,255,255,0.96);
+      padding: 35px 30px 40px;
+      border-radius: 25px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      width: 340px;
+      width: 360px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
       position: relative;
     }
     h1 {
       color: #e91e63;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
-    p {
+    .subtitle {
       color: #555;
       margin-bottom: 15px;
     }
     .gif {
-      width: 200px;
-      border-radius: 15px;
+      width: 220px;
+      border-radius: 18px;
       margin: 10px 0 20px;
     }
+    .love-text {
+      font-size: 19px;
+      color: #444;
+      min-height: 60px;
+      margin-bottom: 10px;
+    }
     .countdown {
-      font-size: 18px;
+      margin: 12px 0 20px;
+      font-size: 17px;
       color: #d81b60;
-      margin-bottom: 20px;
       font-weight: bold;
     }
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      position: relative;
-      height: 50px;
+      gap: 15px;
+      flex-wrap: wrap;
     }
     button {
       padding: 12px 22px;
-      font-size: 16px;
       border: none;
       border-radius: 30px;
+      font-size: 15px;
       cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    #yesBtn {
-      background: #e91e63;
+      background: linear-gradient(135deg, #ff5f9e, #e91e63);
       color: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    #yesBtn:hover {
-      transform: scale(1.1);
+    button:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
     }
-    #noBtn {
-      background: #ddd;
-      color: #333;
-      position: absolute;
+    .floating {
+      position: fixed;
+      bottom: -40px;
+      font-size: 22px;
+      animation: floatUp 6s linear infinite;
+      pointer-events: none;
     }
-    .message {
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.6); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.3); opacity: 0; }
+    }
+    .hug {
       display: none;
-      margin-top: 20px;
-      font-size: 20px;
-      color: #e91e63;
+      margin-top: 15px;
       animation: pop 0.6s ease;
     }
     @keyframes pop {
       0% { transform: scale(0.5); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
-    .hearts {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-    .heart {
-      position: absolute;
-      color: #e91e63;
-      font-size: 22px;
-      animation: float 6s linear infinite;
-    }
-    @keyframes float {
-      0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-    }
   </style>
 </head>
 <body>
 
   <audio id="music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8e8c5cbbf6.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/10/audio_52a5d5b36c.mp3" type="audio/mpeg">
   </audio>
 
   <div class="card">
     <h1>Madhumitha ❤️</h1>
-    <p>Will you be my Valentine?</p>
+    <div class="subtitle">I have something from my heart</div>
 
-    <img class="gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWZ4NXFqcjR5cXN4d3ZlY2U1eTg3bWc3Ym0xNXR2dnZlZ2F1bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MDJ9IbxxvDUQM/giphy.gif" alt="love gif" />
+    <img class="gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ21ldnE4b3N2ZWR4d2E2bXl6c2x5YW1jNGZlYW1zZTRtM2N4bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oriO0OEd9QIDdllqo/giphy.gif" alt="love gif">
+
+    <div class="love-text" id="loveText">
+      Madhumitha, I want to tell you something…
+    </div>
 
     <div class="countdown" id="countdown"></div>
 
     <div class="buttons">
-      <button id="yesBtn">Yes 💕</button>
-      <button id="noBtn">No 🙃</button>
+      <button onclick="sayLove()">Tell Me ❤️</button>
+      <button onclick="sayYes()">Yes 🤗</button>
+      <button onclick="playMusic()">Forever With Me 🎶</button>
     </div>
 
-    <div class="message" id="message">
-      Yayyy! Madhumitha said YES 😍❤️
+    <div class="hug" id="hug">
+      <img class="gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOG5yOXU0bHF6c25nM2U5Z2R1eGd4c3h3d3h3bnd6N3JmYTZqYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l2QDM9Jnim1YVILXa/giphy.gif" alt="hug gif">
+      <div style="color:#e91e63;font-size:18px;margin-top:10px;">I love you Madhumitha ❤️</div>
     </div>
   </div>
 
-  <div class="hearts" id="hearts"></div>
-
   <script>
-    const noBtn = document.getElementById('noBtn');
-    const yesBtn = document.getElementById('yesBtn');
-    const message = document.getElementById('message');
-    const heartsContainer = document.getElementById('hearts');
+    const loveText = document.getElementById('loveText');
+    const hug = document.getElementById('hug');
     const music = document.getElementById('music');
-    const countdownEl = document.getElementById('countdown');
 
-    // Move NO button
-    noBtn.addEventListener('mouseenter', () => {
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
-      noBtn.style.left = x + 'px';
-      noBtn.style.top = y + 'px';
-    });
+    const lines = [
+      'I love you ❤️',
+      'I want you 💖',
+      'You mean everything to me 💕',
+      'My heart chose you 💓',
+      'Forever starts with us 💑'
+    ];
+    let i = 0;
 
-    // YES button
-    yesBtn.addEventListener('click', () => {
-      message.style.display = 'block';
+    function sayLove() {
+      loveText.innerHTML = lines[i % lines.length];
+      i++;
+      spawnHearts();
+    }
+
+    function sayYes() {
+      hug.style.display = 'block';
+      spawnHearts(true);
       music.play();
-      createHearts();
-    });
+    }
 
-    function createHearts() {
-      for (let i = 0; i < 35; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.innerHTML = '❤️';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDelay = Math.random() * 5 + 's';
-        heartsContainer.appendChild(heart);
-        setTimeout(() => heart.remove(), 6000);
+    function playMusic() {
+      music.play();
+    }
+
+    function spawnHearts(many = false) {
+      const icons = ['❤️','💖','💕','💘','💓','🌹'];
+      const count = many ? 20 : 5;
+      for (let j = 0; j < count; j++) {
+        const el = document.createElement('div');
+        el.className = 'floating';
+        el.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.animationDuration = 4 + Math.random() * 4 + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 8000);
       }
     }
 
-    // Countdown to Valentine's Day
+    // Valentine countdown
     const valentinesDay = new Date('Feb 14, 2026 00:00:00').getTime();
+    const countdownEl = document.getElementById('countdown');
+
     setInterval(() => {
       const now = new Date().getTime();
       const distance = valentinesDay - now;
-      if (distance < 0) {
+      if (distance <= 0) {
         countdownEl.innerHTML = 'Happy Valentine’s Day ❤️';
         return;
       }
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      countdownEl.innerHTML = `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s left`;
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.innerHTML = `Valentine’s Day in ⏳ ${d}d ${h}h ${m}m ${s}s`;
     }, 1000);
   </script>
 
